@@ -1,0 +1,13 @@
+#incremetn auto increment value
+INSERT INTO MyTable DEFAULT VALUES
+
+#creat table lieferschiene
+create table Lieferscheine(
+	LiferscheinNr int NOT NULL,
+	ArtikelBeschreibung VARCHAR(255) NOT NULL,
+);
+
+table tblGlobalVar(
+	LiferscheinNr int NOT NULL IDENTITY    PRIMARY KEY,
+);
+
