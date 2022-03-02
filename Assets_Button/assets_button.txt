@@ -1,0 +1,67 @@
+Option Compare Database
+
+
+Public LIEFERSCHEIN_PROJEKT_NUMMER As Long
+Public LIEFERSCHEIN_NUMMER As Long
+
+Dim blnDebug As Boolean
+
+Private Sub Lieferschein_Initialisieren_Click()
+    blnDebug = False
+    Call check_if_the_right_number_inputet_text_box
+    Call set_global_var_with_actuell_projekt_number
+    LIEFERSCHEIN_NUMMER_temp = get_the_highest_lieferschein_number_from_database()
+    LIEFERSCHEIN_NUMMER = LIEFERSCHEIN_NUMMER_temp + 1
+    Call insert_into_database_lieferschein_number_and_projekt_number
+    LieferscheinNummerLokalFormText.Value = LIEFERSCHEIN_NUMMER
+    If blnDebug Then MsgBox (LieferscheinNummerLokalFormText.Value):
+    insert_int_table_lieferscheinAdresse_current_lieferschein_number
+    DoCmd.OpenForm "1Navigation"
+End Sub
+
+Public Sub insert_int_table_lieferscheinAdresse_current_lieferschein_number()
+    strSQL = "INSERT INTO dbo_tblLieferscheinAdressen (LieferscheinID) values ( " & LIEFERSCHEIN_NUMMER & ");"
+    CurrentDb.Execute strSQL, dbFailOnError
+    If blnDebug Then MsgBox (strSQL):
+End Sub
+
+Public Sub insert_into_database_lieferschein_number_and_projekt_number()
+    strSQL = "INSERT INTO dbo_tblGlobalVar (LieferscheinNr,ProjektID) values ( " & LIEFERSCHEIN_NUMMER & "," & LIEFERSCHEIN_PROJEKT_NUMMER & ");"
+    CurrentDb.Execute strSQL, dbFailOnError
+    If blnDebug Then MsgBox (strSQL):
+End Sub
+
+Public Function get_the_highest_lieferschein_number_from_database() As Long
+    Dim highest_lieferschein_number_from_database As Long
+    highest_lieferschein_number_from_database = DLookup("MAX(LieferscheinNr)", "dbo_tblGlobalVar")
+    If blnDebug Then MsgBox ("Highest Lieferschein Number from Database" & highest_lieferschein_number_from_database):
+    get_the_highest_lieferschein_number_from_database = highest_lieferschein_number_from_database
+End Function
+
+
+Public Sub set_global_var_with_actuell_projekt_number()
+    If blnDebug Then MsgBox ("Projekt Number Inputet into the box" & LiferscheinProjektNummer.Value):
+    LIEFERSCHEIN_PROJEKT_NUMMER = LiferscheinProjektNummer.Value
+    If blnDebug Then MsgBox ("Projekt Number savet global" & LIEFERSCHEIN_PROJEKT_NUMMER):
+End Sub
+
+Public Sub error_message()
+    MsgBox ("Bitte Wählen sie ein echtes Projekt aus.")
+End Sub
+
+Public Sub check_if_the_right_number_inputet_text_box()
+    If LiferscheinProjektNummer.Value = 0 Then
+        error_message
+        End
+    End If
+    Dim LTotal As Long
+    
+     'check if the inputet projekt number exist in Database
+    LTotal = DCount("ID", "dbo_tblProjekte", "ID = [LiferscheinProjektNummer]")
+    If LTotal = 0 Then
+        error_message
+        End
+    End If
+End Sub
+
+
