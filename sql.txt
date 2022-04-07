@@ -11,3 +11,29 @@ table tblGlobalVar(
 	LiferscheinNr int NOT NULL IDENTITY    PRIMARY KEY,
 );
 
+
+
+delete from [tblErsatzteile];
+delete from [tblFunkgeräte];
+delete from [tblHandy];
+delete from [tblKabel];
+delete from [tblLogistikkoordinatoren];
+delete from [tblNotebook];
+delete from [tblProjektmanager];
+delete from [tblRouter];
+delete from [tblSimkarten];
+delete from [tblSoftware];
+delete from [tblUsrZugangsdaten];
+delete from [tblZubehör];
+delete from [tblProjekte];
+delete from [tblGlobalVar];
+delete from [tblLieferschein];
+delete from [tblLieferscheinAdressen];
+delete from [tblKleidung];
+delete from [tblACU];
+delete from [tblArtikel];
+delete from [tblArtikelkategorie];
+delete from [tblArtikellieferanten];
+delete from [tblArtikelzustand];
+delete from [tblBE-Assets];
+delete from [tblDrucker];
